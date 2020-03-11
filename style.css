@@ -1,0 +1,22 @@
+#main{
+	display: block;
+	height: 100%;
+}
+
+#map{
+	display: inline;
+	height: 100%;
+	float: right;
+}
+
+.tile{
+	border: 1px solid black;
+	display: inline-block;
+	margin: 0px;
+	padding: 0px;
+}
+.row{
+	margin: 0px;
+	padding: 0px;
+	display: block;
+}
