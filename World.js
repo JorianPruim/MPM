@@ -26,7 +26,7 @@ class World{
 		this.size[1] = y;
 		for(var i=0;i<x;i++){
 			if((typeof this.tiles[i])=="undefined"){
-				this.tiles[i] = new Array();
+				this.tiles[i] = [];
 			}
 			for(var j=0;j<y;j++){
 				if((typeof this.tiles[i][j]) == "undefined"){
