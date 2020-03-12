@@ -54,30 +54,30 @@ class Map{
 	pan(direction, amount){
 		switch(direction){
 			case "up":
-        if(amount>this.y){
-          break;
-        }
+    		    if(amount>this.y){
+          			break;
+       			}
 				this.y-=amount;
 				this.render();
 				break;
 			case "down":
-        if(amount>this.currentWorld.size[1]){
-          break;
-        }
+ 		       if(amount>this.currentWorld.size[1]){
+        			break;
+       			}
 				this.y+=amount;
 				this.render();
 				break;
 			case "left":
-        if(amount>this.x){
-          break;
-        }
+       			if(amount>this.x){
+        		    break;
+        		}
 				this.x-=amount;
 				this.render();
 				break;
 			case "right":
-        if(amount>this.currentWorld.size[0]){
-          break;
-        }
+        		if(amount>this.currentWorld.size[0]){
+          			break;
+        		}
 				this.x+=amount;
 				this.render();
 				break;
