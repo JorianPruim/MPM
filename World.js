@@ -1,7 +1,7 @@
 class World{
-	constructor(){
-		this.name = "";
-		this.displayName = "";
+	constructor(name){
+		this.name = name;
+		this.displayName = name;
 		this.tiles = [];
 		this.entities = [];
 		this.players = [];
@@ -35,6 +35,8 @@ class World{
 			}
 		}
 	}
+
+
 
 	
 }
