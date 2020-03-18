@@ -1,6 +1,8 @@
-var map = new Map();
+document.onload = init();
+
+l("newMapName").value = "myMap";
+createMap();
+map.doRenderLogging = false;
 map.createWorld("myWorld");
-select(map.worlds, "myWorld").setDomain(40,40);
-map.currentWorld = select(map.worlds, "myWorld");
-map.createPlayer(5,6,"myWorld");
-map.setXY(2,3);
+map.selectWorld("myWorld");
+changeEditorScreen("world");

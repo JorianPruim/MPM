@@ -12,10 +12,66 @@
 <body>
 	<div id="main">
 		<div id="navbar">
-			
+			<div class="nav" onclick="changeEditorScreen('map')" id="nmap">
+				Map
+			</div>
+			<div class="nav" onclick="changeEditorScreen('world')" id="nworld">
+				World
+			</div>
+			<div class="nav" onclick="changeEditorScreen('tiles')" id="ntiles">
+				Tiles
+			</div>
+			<div class="nav" onclick="changeEditorScreen('entities')" id="nentities">
+				Entities
+			</div>
+			<div class="nav" onclick="changeEditorScreen('events')" id="nevents">
+				Events
+			</div>
 		</div>
 		<div id="editor">
+			<p id="currentmapname">No map selected</p>
+			<div class="edit" id="emap">
 
+				<p>Create a new map</p>
+				Map name: <input type="text" id="newMapName"><br>
+				<input onclick="createMap()" type="submit" value="Submit"><br>
+				<p>Or import a map (WIP, not implemented yet)</p>
+				<i>Some import selection thingy here</i>
+				<p id="reminder">Remember to ALWAYS export your maps (WIP, ironic isnt it?) before closing the browser window or changing target map, all unsaved progress will be LOST!</p>
+
+				<div id="worldSelect">
+					<p>Create a new world onto the current map</p>
+					World name: <input type="text" id="newWorldName"><br>
+					<input onclick="map.createWorld(l('newWorldName').value)" type="submit" value="Submit"><br>
+					<p>Select a world</p><button onclick="map.refreshWorldList()">Refresh</button><button onclick="maphideWorldList()">Hide</button>
+					<div id="worldList">
+					No worlds detected
+					</div>
+				</div>
+			</div>
+			<div class="edit" id="eworld">
+				<p>Set a domain for this world</p>
+				x:<input type="number" id="domainExpandX"><br>y:<input type="number" id="domainExpandY"><br><input type="submit" value="Set" onclick="map.currentWorld.setDomain(parseInt(l('domainExpandX').value), parseInt(l('domainExpandY').value))">
+				<p>Controls</p>
+				Jump to<br>
+				x:<input type="number" id="jumpToX"><br>
+				y:<input type="number" id="jumpToY"><br>
+				<input type="submit" value="Jump" onclick="map.setXY(parseInt(l('jumpToX').value),parseInt(l('jumpToY').value))"><br>
+				<button onclick="map.pan('up',1)">Up</button>
+				<button onclick="map.pan('down',1)">Down</button>
+				<button onclick="map.pan('left',1)">Left</button>
+				<button onclick="map.pan('right',1)">Right</button>
+
+			</div>
+			<div class="edit" id="etiles">
+
+			</div>
+			<div class="edit" id="eentities">
+
+			</div>
+			<div class="edit" id="eevents">
+
+			</div>
 		</div>
 
 	</div>

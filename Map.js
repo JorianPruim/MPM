@@ -6,18 +6,20 @@ class Map{
 		this.players = []; //list of players
 		this.worlds = []; //list of worlds
 		this.displayName = ""; //name of how it will be shown to the client
-		this.currentWorld = null; //world that will be rendered on a render request
+		this.currentWorld = undefined; //world that will be rendered on a render request
 		this.x = 0; //x-coordinate of the topleft most tile in the browser
 		this.y = 0; //y-coordinate ^
 		this.zoom = 20; //edge length of the current shown render
-		
+		this.doRenderLogging = true;
 	}
 	/*
 	*	render(void) -> void
 	*	method will update the browser map
 	*/
 	render(){
-		console.log("rendering...");
+		if(this.doRenderLogging){
+			console.log("rendering...");
+		}
 		l("map").innerHTML = "";//clears the screen
 		l("map").style.height = window.innerHeight + "px";
 		if(this.currentWorld == null && this.worlds.length > 0){
@@ -33,15 +35,18 @@ class Map{
 			console.warn("no tiles to render")
 			return;
 		}
+		if(this.x>this.currentWorld.size[0] || this.y>this.currentWorld.size[1]){
+			console.warn("current rendering range does not intersect with current world domain");
+		}
 		var marginDown = window.innerHeight % this.zoom;
 		var tileSize = (window.innerHeight - marginDown)/this.zoom;//makes map relative to the screen
 		l("main").style.width = (window.innerWidth - window.innerHeight - marginDown - tileSize) + "px";
-		for(var i = this.y; i<this.zoom+this.y; i++){
+		for(var i = this.y; i<Math.min(this.zoom+this.y,this.currentWorld.size[1]); i++){
 			var newRow = document.createElement("div");//every row contains this.zoom tiles
 			newRow.setAttribute("class","row");
 			newRow.style.height = tileSize + "px";
 			l("map").appendChild(newRow);
-			for(var j = this.x; j<this.zoom+this.x; j++){
+			for(var j = this.x; j<Math.min(this.zoom+this.x,this.currentWorld.size[0]); j++){
 				var newTile = document.createElement("div");
 				newTile.setAttribute("class","tile");
 				newTile.setAttribute("id",""+j+"-"+i+"");
@@ -79,7 +84,10 @@ class Map{
 				containerElement.appendChild(newPlayer);
 			}
 		}
-		console.log("map rendered");
+		if(this.doRenderLogging){
+			console.log("map rendered");
+		}
+		
 
 	}
 	/*
@@ -92,7 +100,15 @@ class Map{
 			console.warn("World with name " + name + " already exists.");
 			return;
 		}else{
+			if(name.length == 0){
+				console.warn("Please enter a valid world name");
+				alert("Please enter a valid world name");
+				return;
+			}
+
 			this.worlds.push(new World(name));
+			l("newWorldName").value = "";
+			this.refreshWorldList();
 		}
 
 	}
@@ -106,6 +122,12 @@ class Map{
 			console.warn("please specify a spawn world for the new player");
 			return;
 		}
+		if(typeof x != "number" || typeof y != "number"){
+			console.warn("please specify valid spawn coordinates");
+			alert("Please specify valid spawn coordinates");
+		}
+		x = Math.floor(x);
+		y = Math.floor(y);
 		var nP = new Player(x,y,w);
 		this.players.push(nP);
 		w.players.push(nP);
@@ -159,5 +181,32 @@ class Map{
 		}
 		return;
 	}
+
+	refreshWorldList(){
+		if(this.worlds.length == 0){
+			l("worldList").innerHTML = "No worlds detected";
+		}else{
+			l("worldList").innerHTML = "";
+			for(var world of this.worlds){
+				l("worldList").innerHTML += "<button onclick=\"map.selectWorld('"+world.name+"')\">"+world.name+"</button><br>";
+
+			}
+		}
+		
+	}
 	
+	hideWorldList(){
+		l("worldList").innerHTML = "";
+	}
+
+	selectWorld(name){
+		if(!select(this.worlds, name)){
+			console.error("this world does not exist");
+			return;
+		}
+		this.currentWorld = select(this.worlds, name);
+		l("currentmapname").innerHTML = "Current Map: " + this.name + " > " + this.currentWorld.name;
+		l("nworld").style.backgroundColor = "#5F5";
+	}
+
 }
