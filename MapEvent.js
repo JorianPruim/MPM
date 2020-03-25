@@ -48,3 +48,19 @@ class AttrChangeEvent extends MapEvent{
 		}
 	}
 }
+
+
+class TileChangeEvent extends MapEvent{
+	constructor(name, world, x, y){
+		super(name);
+		this.world = world;
+		this.x = x;
+		this.y = y;
+		this.tileType = new Tile();
+	}
+
+	execute(){
+		this.world.setTile(this.x, this.y, this.tileType);
+		map.render();
+	}
+}

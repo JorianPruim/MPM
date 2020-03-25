@@ -60,7 +60,9 @@ class Map{
           			if(d == "width" || d == "height"){//do not alter the size of a tile, css is a b*tch.
             			continue;
         		  	}
+
           		newTile.style[d] = this.currentWorld.tiles[j][i].display[d];
+          		console.log(newTile);
         		}
 
 				newRow.appendChild(newTile);

@@ -39,7 +39,11 @@ body{
 	color: red;
 }
 
-#worldSelect #tileEditor .edit{
+#worldSelect #tileEditor{
+	display: none;
+}
+
+.edit{
 	display: none;
 }
 
