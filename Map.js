@@ -11,6 +11,8 @@ class Map{
 		this.y = 0; //y-coordinate ^
 		this.zoom = 20; //edge length of the current shown render
 		this.doRenderLogging = true;
+
+		this.attr = {};
 	}
 	/*
 	*	render(void) -> void

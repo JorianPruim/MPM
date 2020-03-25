@@ -7,6 +7,7 @@ class World{
 		this.players = [];
 		this.size = [0,0];
 
+		this.attr = {};
 	}
 
 	setTile(x,y,tile){

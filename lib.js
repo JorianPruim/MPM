@@ -1,4 +1,6 @@
 var map;
+var currentEditorScreen;
+var selectedTile;
 /*
 *	l(string)
 *	shortcut for document.getElementById
@@ -25,7 +27,10 @@ function select(array, name){
 *	triggers a tileOnClickEvent(WIP) when clicked
 */
 function tileClick(x,y){
-	console.log(x,y);
+	console.log("TileClickEvent: clicked tile (",x,",",y,")");
+	if(currentEditorScreen=="world"){
+
+	}
 }
 
 
@@ -45,6 +50,7 @@ function changeEditorScreen(s){
 		x.style.display = "none";
 	}
 	l("e"+s).style.display = "block";
+	currentEditorScreen = s;
 }
 
 function createMap(){

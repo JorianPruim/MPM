@@ -17,6 +17,8 @@ class Tile{
 			up:{},
 			down:{}
 		}
+
+		this.attr = {};
 	}
 
 	onTileEnter(){
