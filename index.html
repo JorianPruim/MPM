@@ -2,7 +2,7 @@
 <html>
 <head>
 	<script src="lib.js"></script>
-	<script src="Map.js"></script>
+	<script src="MPM.js"></script>
 	<script src="World.js"></script>
 	<script src="Tile.js"></script>
 	<script src="Player.js"></script>
@@ -44,14 +44,15 @@
 				<div id="worldSelect">
 					<p>Create a new world onto the current map</p>
 					World name: <input type="text" id="newWorldName"><br>
-					<input onclick="map.createWorld(l('newWorldName').value)" type="submit" value="Submit"><br>
+					<input onclick="map.createWorld(l('newWorldName').value)" type="submit" value="Create"><br>
 					<p>Select a world</p><button onclick="map.refreshWorldList()">Refresh</button><button onclick="map.hideWorldList()">Hide</button>
 					<div id="worldList">
-					No worlds detected
+						No worlds detected
 					</div>
 				</div>
 			</div>
 			<div class="edit" id="eworld">
+				<p>Set a display name: (this will be shown in the player application)</p><input type="text" id="worldDisplayName"><input type="submit" value="Set" onclick="map.currentWorld.setDisplayName(l('worldDisplayName').value)"><span id="currentWorldDisplayName"></span>
 				<p>Set a domain for this world</p>
 				x:<input type="number" id="domainExpandX"><br>y:<input type="number" id="domainExpandY"><br><input type="submit" value="Set" onclick="map.currentWorld.setDomain(parseInt(l('domainExpandX').value), parseInt(l('domainExpandY').value))">
 				<p>Controls</p>
@@ -62,20 +63,49 @@
 				<button onclick="map.pan('up',1)">Up</button>
 				<button onclick="map.pan('down',1)">Down</button>
 				<button onclick="map.pan('left',1)">Left</button>
-				<button onclick="map.pan('right',1)">Right</button>
+				<button onclick="map.pan('right',1)">Right</button><br>
+				<button onclick="map.zoomIn(-1)">Zoom in</button>
+				<button onclick="map.zoomIn(1)">Zoom out</button>
 				<div id="tileEditor">
 
 				</div>
 
 			</div>
 			<div class="edit" id="etiles">
+				<p>Create a new tile template</p>
+				name: <input type="text" id="tilename">
+				<input type="submit" value="Add" onclick="map.addTile(l('tilename').value)">
+				<p>Select a tile</p><button onclick="map.refreshTileList()">Refresh</button><button onclick="map.hideTileList()">Hide</button>
+				<div id="tileList">
+					No tiles detected
+				</div>
+				<div id="tileCreator">
+					<p>Set a display name: </p><input type="text" id="tileDisplayName"><input type="submit" value="Set" onclick="map.currentTile.setDisplayName(l('tileDisplayName').value)">
+					<p>Append an event:</p>
+					<button onclick="toggleLeaveEnter();">Toggle</button><span id="tileEventTrigger">Enter</span>
+					<p>Set a direction in which the event will be triggerd (the direction is seen from the current tile itself)</p>
+					<button onclick="setDirection('default')">Any</button>
+					<button onclick="setDirection('up')">Up</button>
+					<button onclick="setDirection('down')">Down</button>
+					<button onclick="setDirection('left')">Left</button>
+					<button onclick="setDirection('right')">Right</button><span id="tileEventDirection">Any</span><br>
+					Event Name: <input type="text" id="tileEventName"><br>
+					<input type="submit" value="Add" onclick="map.currentTile.addEvent(l('tileEventName').value, l('tileEventDirection').innerHTML, l('tileEventTrigger').innerHTML)">
+				</div>
 
 			</div>
 			<div class="edit" id="eentities">
 
 			</div>
 			<div class="edit" id="eevents">
+				<p>Select which type of event to be added</p>
+				<button onclick="changeEventType('conditional')">Conditional Event</button>
+				<button onclick="changeEventType('attribute')">Attribute Event</button>
+				<button onclick="changeEventType('tile')">Tile Event</button>
 
+				<div id="eventCreator">
+
+				</div>
 			</div>
 		</div>
 
@@ -86,3 +116,6 @@
 
 	<script src="main.js"></script>
 </body>
+<!--
+	I'm a car vroom vroom
+-->

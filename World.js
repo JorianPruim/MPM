@@ -59,6 +59,15 @@ class World{
 	}
 
 
-
+	setDisplayName(name){
+		if(name.length>0){
+			this.displayName = name;
+			l("worldDisplayName").value = "";
+			l("currentWorldDisplayName").innerHTML = this.displayName;
+		}else{
+			console.warn("Please enter a valid display name");
+			alert("Please enter a valid display name");
+		}
+	}
 	
 }

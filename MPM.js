@@ -1,12 +1,14 @@
-class Map{
+class MPM{
 	constructor(){
 		this.name = ""; //name of the map as it will be read by the code and how it will be downloaded (WIP)
 		this.tiles = []; //list of tile TEMPLATES
 		this.entities = []; //list of entity TEMPLATES
 		this.players = []; //list of players
 		this.worlds = []; //list of worlds
+		this.events = []; //list of stored events
 		this.displayName = ""; //name of how it will be shown to the client
 		this.currentWorld = undefined; //world that will be rendered on a render request
+		this.currentTile = undefined; //used in the editor
 		this.x = 0; //x-coordinate of the topleft most tile in the browser
 		this.y = 0; //y-coordinate ^
 		this.zoom = 20; //edge length of the current shown render
@@ -54,7 +56,7 @@ class Map{
 				newTile.setAttribute("id",""+j+"-"+i+"");
 				newTile.style.width = tileSize + "px";
 				newTile.style.height = tileSize + "px";
-				newTile.setAttribute("onclick","tileClick(" + j + ", " + i + ")");
+				newTile.setAttribute("onclick","tileClick(" + j + ", " + i + ", event)");
 
         		for(var d in this.currentWorld.tiles[j][i].display){//loads in custom styles from the provided tile object
           			if(d == "width" || d == "height"){//do not alter the size of a tile, css is a b*tch.
@@ -102,6 +104,7 @@ class Map{
 
 		if(select(this.worlds, name) instanceof World){
 			console.warn("World with name " + name + " already exists.");
+			alert("World with name "+name+" already exists.");
 			return;
 		}else{
 			if(name.length == 0){
@@ -116,6 +119,25 @@ class Map{
 		}
 
 	}
+
+	addTile(name){
+		if(select(this.tiles, name) instanceof Tile){
+			console.warn("Tile with name " + name + "already exists.");
+			alert("Tile with name "+name+" already exists.");
+			return;
+		}else{
+			if(name.length == 0){
+				console.warn("Please entar a valid tile name");
+				alert("Please enter a valid tile name");
+				return;
+			}
+			this.tiles.push(new Tile(name));
+			l('tilename').value = "";
+			this.refreshTileList();
+		}
+	}
+
+
 	/*
 	*	createPlayer(int, int, World.name)->void
 	*	creates a player at the specified location
@@ -142,9 +164,14 @@ class Map{
 	*	convenience method to directly change the coordinates of view of the current render
 	*/
 	setXY(newX, newY){
-		this.x = newX;
-		this.y = newY;
-		this.render();
+		if(!typeof(newX) == "number" || !typeof(newY) == "number" || isNaN(newX) || isNaN(newY)){
+			console.warn("please enter a vaild number");
+			return;
+		}else{
+			this.x = newX;
+			this.y = newY;
+			this.render();
+		}
 	}
 	/*
 	*	pan(string, int)->void
@@ -186,6 +213,16 @@ class Map{
 		return;
 	}
 
+	zoomIn(amount){
+		if(this.zoom + amount < 0){
+			console.warn("cannot zoom out that much");
+			alert("cannot zoom out that much");
+		}else{
+			this.zoom += amount;
+			this.render();
+		}
+	}
+
 	refreshWorldList(){
 		if(this.worlds.length == 0){
 			l("worldList").innerHTML = "No worlds detected";
@@ -198,9 +235,24 @@ class Map{
 		}
 		
 	}
+
+	refreshTileList(){
+		if(this.tiles.length == 0){
+			l("tileList").innerHTML = "No tiles detected";
+		}else{
+			l("tileList").innerHTML = "";
+			for(var tile of this.tiles){
+				l("tileList").innerHTML += "<button onclick=\"map.selectTile('"+tile.name+"')\">"+tile.name+"</button><br>";
+			}
+		}
+	}
 	
 	hideWorldList(){
 		l("worldList").innerHTML = "";
+	}
+
+	hideTileList(){
+		l("tileList").innerHTML = "";
 	}
 
 	selectWorld(name){
@@ -211,6 +263,17 @@ class Map{
 		this.currentWorld = select(this.worlds, name);
 		l("currentmapname").innerHTML = "Current Map: " + this.name + " > " + this.currentWorld.name;
 		l("nworld").style.backgroundColor = "#5F5";
+	}
+
+	selectTile(name){
+		if(!select(this.tiles, name)){
+			console.error("this tile does not exist");
+			return;
+		}
+		this.currentTile = select(this.tiles, name);
+		l("currentmapname").innerHTML = "Current Map: " + this.name + "(Tile)=>" + this.currentTile.name;
+		l("tileCreator").style.display = "block";
+
 	}
 
 }

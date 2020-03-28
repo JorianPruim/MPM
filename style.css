@@ -39,7 +39,19 @@ body{
 	color: red;
 }
 
-#worldSelect #tileEditor{
+#tileCreator{
+	display: none;
+}
+
+#eventCreator{
+	display: none;
+}
+
+#worldSelect{
+	display: none;
+}
+
+#tileEditor{
 	display: none;
 }
 
