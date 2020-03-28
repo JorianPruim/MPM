@@ -8,6 +8,4 @@ map.selectWorld("myWorld");
 changeEditorScreen("world");
 map.currentWorld.setDomain(20,20);
 map.addTile("myTile");
-changeEditorScreen("tiles");
-var myEvent = new MapEvent('myEvent');
-map.events.push(myEvent);
+select(map.tiles,"myTile").display.backgroundColor = "#55FF55";

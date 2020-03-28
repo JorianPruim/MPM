@@ -13,12 +13,27 @@ class World{
 	setTile(x,y,tile){
 		if(x>this.size[0] || x<0 || y>this.size[1] || y<0){
 			console.warn("the tile to be changed falls not in the current domain of this world.");
+			return;
 		}
 		else if(!(tile instanceof Tile)){
-			console.warn("please specify a tile type");
+			console.warn("please specify a known tile type");
+			return;
 		}
 		else{
 			this.tiles[x][y] = tile;
+		}
+	}
+
+	setTiles(range, tile){
+		if(!tile instanceof Tile){
+			console.warn("please specify a known tile type");
+			return;
+		}else{
+			for(var i = range[0][0]; i<=range[0][1]; i++){
+				for(var j = range[1][0]; j<=range[1][1]; j++){
+					this.setTile(i,j,tile);
+				}
+			}
 		}
 	}
 

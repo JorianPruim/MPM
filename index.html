@@ -67,6 +67,10 @@
 				<button onclick="map.zoomIn(-1)">Zoom in</button>
 				<button onclick="map.zoomIn(1)">Zoom out</button>
 				<div id="tileEditor">
+					<p id="selectedTile"></p>
+					<p>Enter tile name</p>
+					<input type="text" id="tileEditorName">
+					<input type="submit" value="Change" onclick="map.currentWorld.setTiles(map.currentSelection, select(map.tiles, l('tileEditorName').value)); map.render();"><!--Todo: check-->
 
 				</div>
 

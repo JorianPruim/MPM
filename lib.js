@@ -27,12 +27,27 @@ function select(array, name){
 *	triggers a tileOnClickEvent(WIP) when clicked
 */
 function tileClick(x,y,event){
-	if(event.shiftKey){
-		console.log("selecting from ",x,",",y)
-	}
-	console.log("TileClickEvent: clicked tile (",x,",",y,")");
 	if(currentEditorScreen=="world"){
-
+		if(map.selecting){
+			map.currentSelection[0][1] = x;
+			map.currentSelection[1][1] = y;
+			map.selecting = false;
+			l('tileEditor').style.display = "block";
+			l('selectedTile').innerHTML = "Selected Interval: [("+map.currentSelection[0][0]+", "+map.currentSelection[0][1]+"), ("+map.currentSelection[1][0]+", "+map.currentSelection[1][1]+")]";
+		}else{
+			if(!event.shiftKey){
+				l('tileEditor').style.display = "block";
+				l('selectedTile').innerHTML = "Selected Tile: (" + x + ", " + y + ")";
+				map.selecting = false;
+				map.currentSelection = [[x,x],[y,y]];
+			}else{
+				map.selecting = true;
+				map.currentSelection[0] = [];
+				map.currentSelection[1] = [];
+				map.currentSelection[0][0] = x;
+				map.currentSelection[1][0] = y;
+			}
+		}
 	}
 }
 

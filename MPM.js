@@ -8,11 +8,17 @@ class MPM{
 		this.events = []; //list of stored events
 		this.displayName = ""; //name of how it will be shown to the client
 		this.currentWorld = undefined; //world that will be rendered on a render request
-		this.currentTile = undefined; //used in the editor
 		this.x = 0; //x-coordinate of the topleft most tile in the browser
 		this.y = 0; //y-coordinate ^
 		this.zoom = 20; //edge length of the current shown render
 		this.doRenderLogging = true;
+
+		//these attributes belong to the editor screen
+		this.currentTile = undefined; //used in the tile editor
+		this.currentSelection = [[],[]]; //used in the world editor
+		this.selecting = false;
+
+		//this object is used for events and can be seen as a "global variable list"
 
 		this.attr = {};
 	}
@@ -64,7 +70,7 @@ class MPM{
         		  	}
 
           		newTile.style[d] = this.currentWorld.tiles[j][i].display[d];
-          		console.log(newTile);
+          		if(this.doRenderLogging){console.log(newTile);}
         		}
 
 				newRow.appendChild(newTile);

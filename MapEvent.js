@@ -4,7 +4,7 @@ class MapEvent{//TODO DO DO DO DOOOOO
 	}
 
 	execute(){
-		
+		console.warn('Trying to execute an empty event');
 	}
 }
 
